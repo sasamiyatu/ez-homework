@@ -36,6 +36,7 @@ void EmployeeAdd(Employee **first, int *id, int *current_employee_count){
     scanf("%d", &(new_guy->age));
     printf("Insert starting salary: ");
     scanf("%d", &(new_guy->salary));
+    printf("\n");
     if (*first == NULL) {
         *first = new_guy;
     } else {
@@ -114,8 +115,29 @@ void PrintAll(Employee **first) {
     }
 }
 
-void EmployeeRaise() {
-    printf("You should think again, bro\n");
+void EmployeeChangeSalary(Employee **first) {
+    if (*first == NULL) {
+        printf("You have no employees.\n");
+        return;
+    }
+    int id = 0;
+    printf("Enter staff ID of person whose salary you wish to change: ");
+    scanf("%d", &id);
+    printf("\n");
+
+    Employee *current = *first;
+    while (current != NULL) {
+        if (current->staffID == id) {
+            printf("Found the following employee with ID %d: \n", id);
+            PrintEmployeeColumns();
+            PrintEmployee(current);
+            printf("\n");
+            printf("Enter new salary: ");
+            scanf("%d", &(current->salary));
+            printf("Changed salary to %d.\n", current->salary);
+        }
+        current = current->next;
+    }
 }
 
 
@@ -292,8 +314,6 @@ void ListAllEmployeesSalary(Employee **first, int *current_employee_count) {
 int main(void) {
     Employee *first = NULL;
     int next_id = 1;
-    Employee *by_name[MAX_SIZE];
-    Employee *by_salary[MAX_SIZE];
     int current_employee_count = 0;
     int menu = 0;
     do{
@@ -324,7 +344,7 @@ int main(void) {
             EmployeeFire(&first, &current_employee_count);
             break;
         case 3:
-            EmployeeRaise();
+            EmployeeChangeSalary(&first);
             break;
         case 4:
             EmployeeSearchName(&first);
